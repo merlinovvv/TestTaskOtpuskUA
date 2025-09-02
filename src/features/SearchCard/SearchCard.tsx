@@ -1,5 +1,5 @@
-import Dropdown from "../../ui/Dropdown/Dropdown.tsx";
-import Button from "../../ui/Button/Button.tsx";
+import Dropdown from "../../ui/Dropdown.tsx";
+import Button from "../../ui/Button.tsx";
 import { Form, Formik } from "formik";
 import { useGetCountriesQuery } from "../../services/countriesApi";
 import {

@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
-import { cn } from "../../lib/cn.ts";
+import { utils } from "../lib/utils.ts";
 import { LoaderCircle } from "lucide-react";
 
 type ButtonTypes = ButtonHTMLAttributes<object> & {
@@ -10,7 +10,7 @@ function Button({ children, className, loading, ...props }: ButtonTypes) {
   return (
     <button
       disabled={props.disabled || loading}
-      className={cn(
+      className={utils(
         "bg-primary rounded-lg text-lg cursor-pointer text-white font-medium px-4 py-1 relative disabled:opacity-50 disabled:cursor-default",
         className,
       )}

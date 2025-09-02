@@ -34,7 +34,6 @@ export default function Dropdown<T>({
 
   const toggleOpen = () => {
     setIsOpen((prev) => !prev);
-    // подождём рендер и вернём фокус
     setTimeout(() => inputRef.current?.focus(), 0);
   };
 

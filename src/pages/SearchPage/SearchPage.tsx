@@ -39,25 +39,21 @@ export default function SearchPage() {
 
     const attemptFetch = async (retriesLeft: number, waitUntil: string) => {
       setCustomLoading(true);
-      // ждем разрешённое время
       const ms = new Date(waitUntil).getTime() - Date.now();
       await new Promise((r) => setTimeout(r, Math.max(ms, 0)));
 
-      await getPrices().finally(() => setCustomLoading(false)); // руками дёргаем query
+      await getPrices().finally(() => setCustomLoading(false));
 
-      // res имеет вид { data, error }
       if (pricesError) {
         const err: SerializedError & {
           status?: number;
           data?: StartSearchResponse | string;
         } = pricesError;
 
-        // если ошибка != 425 → обычный retry
         if (retriesLeft > 0 && err.status !== 425) {
           await attemptFetch(retriesLeft - 1, waitUntil);
         }
 
-        // если 425 Too Early → ждём новое окно
         if (
           err.status === 425 &&
           (err?.data as StartSearchResponse)?.waitUntil
@@ -98,20 +94,27 @@ export default function SearchPage() {
         !!requestIdSearch ? (
         <p className="text-center mt-10">За вашим запитом турів не знайдено</p>
       ) : (
-        <div
-          className="grid gap-4 max-w-[700px] mx-auto justify-items-center mt-10"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          }}
-        >
-          {(
-            Object.entries(pricesData?.prices || {}) as [string, PriceOffer][]
-          ).map(([key, offer]) => {
-            const hotelId = offer?.hotelID;
-            const hotel = hotelId ? hotelsData[hotelId] : {};
-            return <PriceCard {...hotel} key={key} {...offer} />;
-          })}
-        </div>
+        !!hotelsData &&
+        !!pricesData && (
+          <div
+            className="grid gap-4 max-w-[700px] mx-auto justify-items-center mt-10"
+            style={{
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            }}
+          >
+            {Object.entries(pricesData?.prices || {}).map(
+              ([key, offer]: [string, PriceOffer]) => {
+                return (
+                  <PriceCard
+                    hotel={hotelsData[offer.hotelID]}
+                    offer={offer}
+                    key={key}
+                  />
+                );
+              },
+            )}
+          </div>
+        )
       )}
     </div>
   );

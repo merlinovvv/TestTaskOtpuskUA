@@ -1,37 +1,26 @@
 import type { Hotel, PriceOffer } from "../../types/api";
-import { Calendar, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
+import { formatMoney } from "../../lib/utils";
+import DatePeriod from "../../ui/DatePeriod";
+import { HotelInfoCard } from "../../ui/HotelInfoCard";
 
-export default function PriceCard(props: Hotel & PriceOffer) {
-  console.log(props);
+export default function PriceCard({
+  hotel,
+  offer,
+}: {
+  hotel: Hotel;
+  offer: PriceOffer;
+}) {
   return (
-    <div className="price-card flex flex-col gap-2">
-      <img className="rounded-md" src={props?.img} alt={props?.name} />
-      <h3 className="text-lg font-bold">{props?.name}</h3>
-      <div className="flex gap-2 items-end">
-        <Globe />{" "}
-        <p>
-          {props?.countryName}, {props?.cityName}
-        </p>
-      </div>
-      <div className="flex gap-2 items-end">
-        <Calendar />
-        <p>
-          <time dateTime={props?.startDate}>
-            {new Date(props?.startDate)?.toLocaleDateString()}
-          </time>{" "}
-          -{" "}
-          <time dateTime={props?.endDate}>
-            {new Date(props?.endDate)?.toLocaleDateString()}
-          </time>
-        </p>
-      </div>
-      <p className="uppercase text-lg font-bold">
-        {props?.amount} {props?.currency}
+    <div className="card flex flex-col gap-3">
+      <HotelInfoCard hotel={hotel} />
+      <DatePeriod endDate={offer.endDate} startDate={offer.startDate} />
+      <p className="text-lg font-bold">
+        {formatMoney(offer.amount, offer.currency)}
       </p>
       <Link
         className="text-primary font-semibold"
-        to={`/tour/${props?.id}/${props?.hotelID}`}
+        to={`/tour/${offer.id}/${hotel.id}`}
       >
         Детальніше
       </Link>

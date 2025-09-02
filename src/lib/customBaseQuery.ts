@@ -1,6 +1,5 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 
-// Тип для query, чтобы можно было передавать любую функцию из api.js + её аргументы
 export interface CustomQueryArgs<
   Fn extends (...args: any[]) => Promise<Response> = (
     ...args: any[]
@@ -11,8 +10,7 @@ export interface CustomQueryArgs<
 }
 
 /**
- * BaseQuery-адаптер для RTK Query, чтобы дёргать мок-методы как endpoint.
- * Оборачивает Response → JSON через toJson и нормализует ошибки.
+ * BaseQuery-адаптер для RTK Query.
  */
 export const customBaseQuery = (): BaseQueryFn<
   CustomQueryArgs,

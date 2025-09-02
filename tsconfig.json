@@ -2,7 +2,7 @@
   "files": [],
   "compilerOptions": {
     "allowJs": true,
-    "checkJs": false, // если хочешь строгую проверку JS, включи true
+    "checkJs": false,
     "outDir": "dist",
     "target": "ESNext",
     "module": "ESNext",

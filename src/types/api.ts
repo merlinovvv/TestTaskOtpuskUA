@@ -22,7 +22,7 @@ export type PriceOffer = {
   currency: "usd"; // нижній регістр за поточною реалізацією
   startDate: string; // YYYY-MM-DD (сьогодні +2..5)
   endDate: string; // YYYY-MM-DD (start +4..7)
-  hotelID?: string; // додається в результатах пошуку цін
+  hotelID: string; // додається в результатах пошуку цін
 };
 
 // Відповідь пошуку цін (готові результати)
