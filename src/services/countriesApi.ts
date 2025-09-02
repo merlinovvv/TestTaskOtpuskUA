@@ -1,21 +1,14 @@
-import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { getCountries } from "../lib/api";
 import type { CountriesMap } from "../types/api";
+import { customBaseQuery } from "../lib/customBaseQuery";
 
 export const countriesApi = createApi({
-  reducerPath: "countriesApi",
-  baseQuery: fakeBaseQuery(),
+  reducerPath: "countries",
+  baseQuery: customBaseQuery(),
   endpoints: (builder) => ({
-    getCountries: builder.query<CountriesMap, void>({
-      async queryFn() {
-        try {
-          const res = await getCountries();
-          const data = await res.json();
-          return { data };
-        } catch (err: unknown) {
-          return { error: { status: 500, data: err } };
-        }
-      },
+    getCountries: builder.query<CountriesMap, string | number | void>({
+      query: () => ({ fn: getCountries }),
     }),
   }),
 });

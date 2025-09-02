@@ -2,25 +2,36 @@ import Dropdown from "../../ui/Dropdown/Dropdown.tsx";
 import Button from "../../ui/Button/Button.tsx";
 import { Form, Formik } from "formik";
 import { useGetCountriesQuery } from "../../services/countriesApi";
-import { Fragment, useEffect, useState } from "react";
+import {
+  type Dispatch,
+  Fragment,
+  type SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { useSearchGeoQuery } from "../../services/searchGeoApi";
-import type { GeoEntity } from "../../types/api";
-import { Hotel, MapPin } from "lucide-react";
+import type { City, Country, GeoEntity, Hotel } from "../../types/api";
+import { MapPin, Hotel as HotelIcon } from "lucide-react";
+import { useStartSearchPricesQuery } from "../../services/startSearchPricesApi";
 
-export default function SearchCard() {
+export default function SearchCard({
+  setRequestIdSearch,
+}: {
+  setRequestIdSearch: Dispatch<SetStateAction<string>>;
+}) {
   const [enabledFetch, setEnabledFetch] = useState(false);
   const [searchValue, setSearchValue] = useState<number | string>("");
   const [dropdownOptions, setDropdownOptions] = useState<GeoEntity[]>([]);
+  const [countryId, setCountryId] = useState("");
+
   const { data: countriesData, isFetching: isLoadingCountries } =
     useGetCountriesQuery(undefined, { skip: !enabledFetch });
   const { data: serachGeoData, isFetching: isLoadingGeoData } =
     useSearchGeoQuery(searchValue, {
       skip: !searchValue,
     });
-
-  function handleSubmit(values: { selectedSearch: string }) {
-    console.log(values);
-  }
+  const { isLoading: isLoadingSearchPrices, error: errorSearchPrices } =
+    useStartSearchPricesQuery(countryId, { skip: !countryId });
 
   function findItemTemplate(e: GeoEntity) {
     if (e?.type === "country" || !e?.type) {
@@ -44,7 +55,7 @@ export default function SearchCard() {
     if (e?.type === "hotel") {
       return (
         <Fragment>
-          <Hotel />
+          <HotelIcon />
           {e.name}
         </Fragment>
       );
@@ -59,14 +70,20 @@ export default function SearchCard() {
     );
   }, [searchValue, serachGeoData, countriesData]);
 
+  useEffect(() => {
+    setRequestIdSearch(countryId ?? "");
+  }, [countryId, setRequestIdSearch]);
+
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{ selectedSearch: "" }}
-      onSubmit={handleSubmit}
+      onSubmit={async ({ selectedSearch }) => {
+        setCountryId(selectedSearch);
+      }}
     >
-      {({ setFieldValue }) => (
-        <Form className="bg-card rounded-lg border border-gray-400 p-[25px] mx-auto max-w-[350px] mt-10 flex flex-col gap-2">
+      {({ setFieldValue, values }) => (
+        <Form className="search-card flex flex-col gap-2">
           <Dropdown<GeoEntity>
             name="selectedSearch"
             loading={isLoadingCountries || isLoadingGeoData}
@@ -76,13 +93,28 @@ export default function SearchCard() {
             onClose={() => setEnabledFetch(false)}
             options={dropdownOptions}
             optionTemplate={findItemTemplate}
-            onSelect={(val) =>
-              setFieldValue("selectedSearch", (val as GeoEntity | null)?.id)
+            onSelect={(item) =>
+              setFieldValue(
+                "selectedSearch",
+                !item?.type || item?.type === "country"
+                  ? (item as Country)?.id
+                  : (item as City | Hotel)?.countryId || null,
+              )
             }
           />
-          <Button className="w-full" type="submit">
+          <Button
+            disabled={!values.selectedSearch}
+            loading={isLoadingSearchPrices}
+            className="w-full"
+            type="submit"
+          >
             Знайти
           </Button>
+          {errorSearchPrices?.message && (
+            <p className="text-red-500 text-center">
+              {errorSearchPrices?.message}
+            </p>
+          )}
         </Form>
       )}
     </Formik>

@@ -11,3 +11,13 @@
         @apply bg-bg;
     }
 }
+
+@layer components {
+    .search-card {
+        @apply bg-card rounded-lg border border-gray-400 p-[25px] mx-auto max-w-[350px] mt-10
+    }
+
+    .price-card {
+        @apply bg-card rounded-lg border border-gray-400 p-[25px] min-w-[250px] w-full
+    }
+}

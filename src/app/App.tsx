@@ -6,7 +6,7 @@ import Providers from "./Providers.tsx";
 export default function App() {
   const router = createBrowserRouter([
     { path: "/", element: <SearchPage /> },
-    { path: "/tour/:priceId", element: <TourPage /> },
+    { path: "/tour/:priceId/:hotelId", element: <TourPage /> },
   ]);
 
   return (
