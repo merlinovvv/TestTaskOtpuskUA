@@ -1,11 +1,5 @@
 import type { Hotel, PriceOffer } from "../../types/api";
-import {
-  SquareParking,
-  Volleyball,
-  WashingMachine,
-  WavesLadder,
-  Wifi,
-} from "lucide-react";
+import { SquareParking, Volleyball, WashingMachine, WavesLadder, Wifi } from "lucide-react";
 import { formatMoney } from "../../lib/utils";
 import DatePeriod from "../../ui/DatePeriod";
 import { HotelInfoCard } from "../../ui/HotelInfoCard";
@@ -45,10 +39,7 @@ export function TourCard({
 }) {
   const { services } = hotel;
   const { startDate, endDate, currency, amount } = price;
-  const servicesList = Object.entries(services ?? {}) as [
-    ServiceKey,
-    "yes" | "none",
-  ][];
+  const servicesList = Object.entries(services ?? {}) as [ServiceKey, "yes" | "none"][];
 
   return (
     <section className="card max-w-[350px] mx-auto mt-10 flex flex-col gap-3">

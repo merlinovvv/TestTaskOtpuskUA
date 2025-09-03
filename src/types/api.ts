@@ -29,10 +29,7 @@ export type PriceOffer = {
 export type PricesMap = Record<string, PriceOffer>;
 
 // Підказки гео-пошуку
-export type GeoEntity =
-  | (Country & { type: "country" })
-  | (City & { type: "city" })
-  | (Hotel & { type: "hotel" });
+export type GeoEntity = (Country & { type: "country" }) | (City & { type: "city" }) | (Hotel & { type: "hotel" });
 
 export type GeoResponse = Record<string, GeoEntity>;
 

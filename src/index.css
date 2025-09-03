@@ -1,23 +1,23 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
-    --color-primary: #3050f5;
-    --color-card: #fafbfd;
-    --color-bg: #f0f0f0;
+  --color-primary: #3050f5;
+  --color-card: #fafbfd;
+  --color-bg: #f0f0f0;
 }
 
 @layer base {
-    body {
-        @apply bg-bg;
-    }
+  body {
+    @apply bg-bg;
+  }
 }
 
 @layer components {
-    .search-card {
-        @apply bg-card rounded-lg border border-gray-400 p-[25px] mx-auto max-w-[350px] mt-10
-    }
+  .search-card {
+    @apply bg-card rounded-lg border border-gray-400 p-[25px] mx-auto max-w-[350px] mt-10;
+  }
 
-    .card {
-        @apply bg-card rounded-lg border border-gray-400 p-[25px] min-w-[250px] w-full
-    }
+  .card {
+    @apply bg-card rounded-lg border border-gray-400 p-[25px] min-w-[250px] w-full;
+  }
 }

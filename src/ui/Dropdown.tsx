@@ -1,10 +1,4 @@
-import {
-  useState,
-  type InputHTMLAttributes,
-  type ReactNode,
-  useEffect,
-  useRef,
-} from "react";
+import { useState, type InputHTMLAttributes, type ReactNode, useEffect, useRef } from "react";
 import { ChevronDown, ChevronUp, LoaderCircle, X } from "lucide-react";
 
 type DropdownProps<T> = InputHTMLAttributes<HTMLInputElement> & {
@@ -32,11 +26,13 @@ export default function Dropdown<T>({
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<T | null>(null);
 
+  // открываем / закрываем
   const toggleOpen = () => {
     setIsOpen((prev) => !prev);
     setTimeout(() => inputRef.current?.focus(), 0);
   };
 
+  // выбираем значение из списка
   const handleSelect = (item: T) => {
     setSelected(item);
     onSelect(item);
@@ -44,6 +40,7 @@ export default function Dropdown<T>({
     inputRef.current?.focus();
   };
 
+  // чистим выбранное
   const handleClear = () => {
     setSelected(null);
     onSelect(null);
@@ -71,17 +68,12 @@ export default function Dropdown<T>({
         />
         {selected ? (
           <div className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-800 truncate w-[80%] pointer-events-none">
-            <div className="flex items-center gap-2 p-1 w-full rounded-sm">
-              {optionTemplate(selected)}
-            </div>
+            <div className="flex items-center gap-2 p-1 w-full rounded-sm">{optionTemplate(selected)}</div>
           </div>
         ) : null}
 
         {loading ? (
-          <LoaderCircle
-            size={16}
-            className="absolute animate-spin -translate-y-1/2 top-1/2 right-2"
-          />
+          <LoaderCircle size={16} className="absolute animate-spin -translate-y-1/2 top-1/2 right-2" />
         ) : selected ? (
           <X
             size={16}
@@ -89,15 +81,9 @@ export default function Dropdown<T>({
             className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 hover:text-red-500"
           />
         ) : isOpen ? (
-          <ChevronUp
-            size={16}
-            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
-          />
+          <ChevronUp size={16} className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500" />
         ) : (
-          <ChevronDown
-            size={16}
-            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
-          />
+          <ChevronDown size={16} className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500" />
         )}
       </div>
 
@@ -116,9 +102,7 @@ export default function Dropdown<T>({
             ))}
           </ul>
         ) : (
-          <p className="text-center border border-gray-500 p-2 rounded-md bg-white">
-            Нічого не знайдено
-          </p>
+          <p className="text-center border border-gray-500 p-2 rounded-md bg-white">Нічого не знайдено</p>
         ))}
     </div>
   );

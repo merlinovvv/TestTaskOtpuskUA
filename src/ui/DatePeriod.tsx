@@ -1,13 +1,7 @@
 import { Calendar } from "lucide-react";
 import { formatDate } from "../lib/utils";
 
-export default function DatePeriod({
-  startDate,
-  endDate,
-}: {
-  startDate: string;
-  endDate: string;
-}) {
+export default function DatePeriod({ startDate, endDate }: { startDate: string; endDate: string }) {
   return (
     <div className="flex gap-2 items-end">
       <Calendar />

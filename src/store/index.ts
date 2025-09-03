@@ -3,9 +3,11 @@ import { countriesApi } from "../services/countriesApi";
 import { searchGeoApi } from "../services/searchGeoApi";
 import { startSearchPricesApi } from "../services/startSearchPricesApi";
 import { tourApi } from "../services/tourApi";
+import searchReducer from "../features/search/model/searchSlice";
 
 export const store = configureStore({
   reducer: {
+    search: searchReducer,
     [countriesApi.reducerPath]: countriesApi.reducer,
     [searchGeoApi.reducerPath]: searchGeoApi.reducer,
     [startSearchPricesApi.reducerPath]: startSearchPricesApi.reducer,
