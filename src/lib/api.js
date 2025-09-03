@@ -34,18 +34,22 @@ class DB {
       712: {
         id: 712,
         name: "Хургада",
+        countryId: 43,
       },
       1262: {
         id: 1262,
         name: "Макаді Бей",
+        countryId: 43,
       },
       1247: {
         id: 1247,
         name: "Марса Алам",
+        countryId: 43,
       },
       953: {
         id: 953,
         name: "Аланія",
+        countryId: 115,
       },
     };
 
